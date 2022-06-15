@@ -127,6 +127,9 @@ struct FieldButton : public VButton
 
 class HUD
 {
+	float ScreenX;
+	float ScreenY;
+
 
 	sf::Text MoneyTest;
 	sf::Sprite BaseSprite;
@@ -134,11 +137,20 @@ class HUD
 	sf::Sprite StandardTower;
 	sf::Sprite Mine;
 	sf::Sprite Mage;
+	
+
+
+	//This is a quick thing to create a less jaring start
+	sf::Texture StartingCloudTexture;
+	std::vector<sf::Sprite*> StartingClouds;
+	float StartingCloudOpacity = 255;
+	bool StartingCloudDelete = false;
+
 
 public:
 
 	HUD();
-	void Render(sf::RenderWindow* window, int money);
+	void Render(sf::RenderWindow* window, int money, double DeltaTime);
 	VButton StandardTowerButton = VButton(sf::Vector2i(0,815),sf::Vector2i(475,1080),"UITower.png");
 	VButton MineButton = VButton(sf::Vector2i(475, 815), sf::Vector2i(975, 1080), "UIMine.png");
 	VButton MageButton = VButton(sf::Vector2i(975, 815), sf::Vector2i(1460, 1080), "UIMage.png");

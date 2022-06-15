@@ -2,8 +2,35 @@
 #include "GameInstance.h"
 #include "StandardIO.h"
 
-void HUD::Render(sf::RenderWindow* window, int money)
+void HUD::Render(sf::RenderWindow* window, int money, double DeltaTime)
 {
+
+
+	for (sf::Sprite* i : StartingClouds)
+	{
+		window->draw(*i);
+		if (i->getPosition().x < ScreenX / 2)
+		{
+			i->move(-DeltaTime * 400, 0);
+		}
+		else
+		{
+			i->move(DeltaTime * 400, 0);
+		}
+		i->setColor(sf::Color(255,255,255,StartingCloudOpacity));
+		StartingCloudOpacity -= DeltaTime*0.6;
+		StartingCloudDelete = StartingCloudOpacity < 0;
+	}
+	if (StartingCloudDelete && StartingClouds.size())
+	{
+		for (sf::Sprite* i : StartingClouds)
+		{
+			delete i;
+		}
+		StartingClouds.clear();
+	}
+
+
 	MoneyTest.setString("Gold: "+std::to_string(money));
 	window->draw(MoneyTest);
 	window->draw(BaseSprite);
@@ -11,6 +38,9 @@ void HUD::Render(sf::RenderWindow* window, int money)
 	MineButton.Render(window);
 	MageButton.Render(window);
 	PauseButton.Render(window);
+
+
+
 
 }
 
@@ -44,6 +74,8 @@ int HUD::PauseMenu(sf::RenderWindow* window)
 			}
 		}
 
+
+
 		window->display();
 	}
 
@@ -72,7 +104,27 @@ HUD::HUD()
 {
 
 	ConfigData Config = getConfiguration();
+	ScreenX = Config.ScreenX;
+	ScreenY = Config.ScreenY;
 
+
+
+	if (StartingCloudTexture.loadFromFile("Data/UI/StartingCloud.png"))
+	{
+		//TODO
+	}
+	//set up the clouds that will appear initially when the game starts.
+	for (size_t i = 0; i < 20; i++)
+	{
+		for (size_t j = 0; j < 10; j++)
+		{
+			StartingClouds.push_back(new sf::Sprite());
+			StartingClouds.back()->setTexture(StartingCloudTexture);
+			StartingClouds.back()->setPosition(i*100,j*100);
+			StartingClouds.back()->setRotation(Utils::RandomFloatInRange(360));
+		}
+
+	}
 
 
 

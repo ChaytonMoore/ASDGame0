@@ -657,7 +657,7 @@ void GameInstance::GameLoop()
 
 
         HandleButtons(DeltaTime);
-        UI->Render(window, Gold);
+        UI->Render(window, Gold,DeltaTime);
 
 
 
@@ -696,7 +696,7 @@ GameInstance::GameInstance(std::string MapSource)
     config = getConfiguration();
     TerrainData = new Terrain(MapSource);
 
-    window = new sf::RenderWindow(sf::VideoMode(config.ScreenX, config.ScreenY), "TD Game", sf::Style::Fullscreen);
+    window = new sf::RenderWindow(sf::VideoMode(config.ScreenX, config.ScreenY), "TD Game");
 
 
 
