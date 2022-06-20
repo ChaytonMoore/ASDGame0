@@ -6,7 +6,9 @@ struct Condition {
 	std::string name;
 	int condition;
 
-	Condition(std::string name, int conditon) {
+
+	Condition(std::string name, int condition) {
+
 		this->name = name;
 		this->condition = condition;
 	}
